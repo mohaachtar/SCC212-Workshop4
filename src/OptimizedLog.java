@@ -50,9 +50,6 @@ public class OptimizedLog implements Iterable<Object>,Iterator<Object>{
         {
             OptimizedLogItem ItemToAdd = new OptimizedLogItem(ObjToAdd);
             list.add(ItemToAdd);
-
-            System.out.println(list.get(list.size()-1).getLoggedItem());
-            System.out.println(ObjToAdd);
         }
         else
         {
