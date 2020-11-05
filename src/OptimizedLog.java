@@ -1,9 +1,13 @@
+import javax.naming.OperationNotSupportedException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.function.IntFunction;
+import java.util.function.Predicate;
 
-public class OptimizedLog implements Iterable<Object>,Iterator<Object>{
+public class OptimizedLog implements Collection,Iterator<Object> {
 
-    private ArrayList<OptimizedLogItem> list;
+    private final ArrayList<OptimizedLogItem> list;
     private int index;
 
     /**
@@ -11,7 +15,7 @@ public class OptimizedLog implements Iterable<Object>,Iterator<Object>{
      */
     public OptimizedLog()
     {
-        list = new ArrayList<OptimizedLogItem>();
+        list = new ArrayList<>();
         index = -1;
     }
 
@@ -43,17 +47,19 @@ public class OptimizedLog implements Iterable<Object>,Iterator<Object>{
      * Adds an item to the optimized log.
      * @param ObjToAdd : the object to add to the log.
      */
-    public void add(Object ObjToAdd)
+    public boolean add(Object ObjToAdd)
     {
         //is the either the list empty or the object not identical to the last object?
         if( list.size() == 0 || !list.get(list.size()-1).getLoggedItem().equals(ObjToAdd))
         {
             OptimizedLogItem ItemToAdd = new OptimizedLogItem(ObjToAdd);
             list.add(ItemToAdd);
+            return true;
         }
         else
         {
             list.get(list.size()-1).incrementRepetition();
+            return true;
         }
     }
 
@@ -92,5 +98,78 @@ public class OptimizedLog implements Iterable<Object>,Iterator<Object>{
     @Override
     public Iterator<Object> iterator() {
         return this;
+    }
+
+    //implementing the collection interface here.
+
+
+    @Override
+    public int size() {
+        return list.size();
+    }
+
+    @Override
+    public boolean removeIf(Predicate filter) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return list.isEmpty();
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        return list.contains(o);
+    }
+
+    @Override
+    public Object[] toArray(IntFunction generator) {
+        return list.toArray();
+    }
+
+    @Override
+    public Object[] toArray() {
+        return list.toArray();
+    }
+
+    @Override
+    public Object[] toArray(Object[] a) {
+        return list.toArray();
+    }
+
+    @Override
+    public void remove() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean containsAll(Collection c) {
+        return list.containsAll(c);
+    }
+
+    @Override
+    public boolean addAll(Collection c) {
+        return list.addAll(c);
+    }
+
+    @Override
+    public boolean removeAll(Collection c) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean retainAll(Collection c) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void clear() {
+        throw new UnsupportedOperationException();
     }
 }
